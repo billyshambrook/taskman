@@ -1,10 +1,12 @@
 from setuptools import find_packages
 from setuptools import setup
 
+import taskman
+
 
 setup(
     name='taskman',
-    version='0.0.2',
+    version=taskman.__version__,
     license='BSD',
     url='http://github.com/billyshambrook/taskman',
     author='Billy Shambrook',
