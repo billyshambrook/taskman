@@ -1,21 +1,30 @@
 language: python
+python: '3.5'
+sudo: false
 env:
-- TOXENV=py27
-- TOXENV=py34
+  matrix:
+    - TOXENV=py27
+    - TOXENV=py34
+    - TOXENV=py35
+before_install:
+  - python --version
+  - uname -a
+  - lsb_release -a
 install:
-- pip install tox
-script:
-- tox
-matrix:
-  include:
-  - python: 3.5
-    env: TOXENV=py35
+  - pip install codecov
+  - pip install tox
+  - virtualenv --version
+  - pip --version
+  - tox --version
 before_script:
   - wget 'https://releases.hashicorp.com/consul/0.6.3/consul_0.6.3_linux_amd64.zip'
   - unzip "consul_0.6.3_linux_amd64.zip"
   - ./consul --version
 script:
-  - ../consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul &
+  - ./consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul &
+  - tox -v
+after_success:
+  - codecov
 deploy:
   provider: pypi
   user: billy.shambrook
@@ -25,3 +34,15 @@ deploy:
     tags: true
     distributions: sdist bdist_wheel
     repo: billyshambrook/taskman
+after_failure:
+  - more .tox/log/* | cat
+  - more .tox/*/log/* | cat
+before_cache:
+  - rm -rf $HOME/.cache/pip/log
+cache:
+  directories:
+    - $HOME/.cache/pip
+notifications:
+  email:
+    on_success: never
+    on_failure: always

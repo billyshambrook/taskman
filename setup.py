@@ -14,14 +14,8 @@ setup(
     description='A python task manager using Consul for its backend.',
     long_description=open('README.rst').read(),
     packages=find_packages(),
-    test_suite='tests',
     install_requires=[
-    ],
-    setup_requires=[
-        'pytest-runner'
-    ],
-    tests_require=[
-        'pytest'
+        'consulate'
     ],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
