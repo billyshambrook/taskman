@@ -17,6 +17,9 @@ Taskman
     :target: https://taskman.readthedocs.org/en/latest/
     :alt: Documentation Status
 
+.. image:: https://codecov.io/github/billyshambrook/taskman/coverage.svg?branch=master
+    :target: https://codecov.io/github/billyshambrook/taskman?branch=master
+
 Overview
 --------
 
