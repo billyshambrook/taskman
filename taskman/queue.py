@@ -19,7 +19,7 @@ class Queue(object):
         self._client = client
         self._base_path = base_path
         self._queue_path = posixpath.join(self._base_path, 'queue')
-        self._counter_path = posixpath.join(self._base_path, 'counter')
+        self._counter_path = posixpath.join(self._queue_path, 'counter')
         self._ensure_counter()
         self._ensure_queue()
 
