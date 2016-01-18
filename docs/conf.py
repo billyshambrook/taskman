@@ -19,7 +19,7 @@ exclude_patterns = ['_build']
 
 pygments_style = 'sphinx'
 
-html_theme = 'default'
+html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 
 htmlhelp_basename = 'taskmanpydoc'
