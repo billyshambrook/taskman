@@ -18,7 +18,7 @@ class Queue(object):
         """
         self._client = client
         self._base_path = base_path
-        self._queue_path = posixpath.join(self._base_path, 'queue')
+        self._queue_path = posixpath.join(self._base_path, 'queue', '')
         self._counter_path = posixpath.join(self._queue_path, 'counter')
         self._ensure_counter()
         self._ensure_queue()
@@ -35,11 +35,11 @@ class Queue(object):
 
     def get(self):
         """Get a task from the queue."""
-        tasks = sorted(self._get_avaliable_tasks())
+        tasks = self._get_avaliable_tasks()
         if not tasks:
             return None
-        data = self._client.kv[tasks[0]]
-        self._client.kv.delete(tasks[0])
+        name, data = tasks[0]
+        self._client.kv.delete(name)
         return data
 
     def put(self, value):
@@ -56,8 +56,8 @@ class Queue(object):
     def _get_avaliable_tasks(self):
         """Get all tasks present in the queue."""
         base_task = posixpath.join(self._queue_path, self.TASK_PREFIX)
-        keys = self._client.kv.find(prefix=base_task)
-        return keys
+        tasks = self._client.kv.find(prefix=base_task)
+        return sorted(tasks.items())
 
     @property
     def _counter(self):
