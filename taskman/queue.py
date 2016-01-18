@@ -42,14 +42,16 @@ class Queue(object):
         self._client.kv.delete(name)
         return data
 
-    def put(self, value):
+    def put(self, value, priority=100):
         """
         Put a task into the queue.
 
         Args:
             value (str): Task data.
+            priority (int): An optional priority as an integer with at most 3 digits.
+                Lower values signify higher priority.
         """
-        task_name = '{}{}'.format(self.TASK_PREFIX, self._counter)
+        task_name = '{}{:03d}_{}'.format(self.TASK_PREFIX, priority, self._counter)
         path = posixpath.join(self._queue_path, task_name)
         self._client.kv[path] = value
 

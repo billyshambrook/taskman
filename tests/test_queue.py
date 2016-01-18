@@ -45,3 +45,13 @@ class TestQueue(object):
         assert queue.get() == 'bar'
         assert queue.get() == 'dar'
         assert len(queue) == 0
+
+    def test_priority(self, queue):
+        """Ensure tasks are given back in order of priority."""
+        queue.put('foo')
+        queue.put('bar', priority=30)
+        queue.put('dar', priority=100)
+
+        assert queue.get() == 'bar'
+        assert queue.get() == 'foo'
+        assert queue.get() == 'dar'
